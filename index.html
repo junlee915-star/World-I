@@ -1,0 +1,484 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>WORLD&amp;I BookWorld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F3F4F7; --surface:#FFFFFF; --surface-2:#EAECF1; --ink:#1A2030; --ink-2:#4B5367; --ink-3:#7A8296;
+  --line:#DCE0E8; --brand:#22306B; --brand-ink:#FFFFFF;
+  --rel:#94660F; --phi:#2A6658; --mat:#3748A8; --phy:#A8412B;
+  --rel-soft:#F6EEDC; --phi-soft:#E2EFEB; --mat-soft:#E5E8F7; --phy-soft:#F6E5E0;
+  --ok:#2A6658; --serif:"Gowun Batang","Noto Serif KR",serif; --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace; --fs:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#11141B; --surface:#191E28; --surface-2:#222835; --ink:#E7E9EF; --ink-2:#A9B0C0; --ink-3:#7D8598;
+    --line:#2C3342; --brand:#AFC0FF; --brand-ink:#11141B;
+    --rel:#D8A64A; --phi:#63B7A2; --mat:#94A3F2; --phy:#E9826A;
+    --rel-soft:#2A2416; --phi-soft:#16292532; --mat-soft:#1E2340; --phy-soft:#2E1C18; --ok:#63B7A2;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#11141B; --surface:#191E28; --surface-2:#222835; --ink:#E7E9EF; --ink-2:#A9B0C0; --ink-3:#7D8598;
+  --line:#2C3342; --brand:#AFC0FF; --brand-ink:#11141B;
+  --rel:#D8A64A; --phi:#63B7A2; --mat:#94A3F2; --phy:#E9826A;
+  --rel-soft:#2A2416; --phi-soft:#162925; --mat-soft:#1E2340; --phy-soft:#2E1C18; --ok:#63B7A2;
+}
+html.big{--fs:19px}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:var(--fs);line-height:1.7;margin:0}
+a{color:inherit}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+.label{font-size:.75em;letter-spacing:.08em;font-weight:600;color:var(--ink-3)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:12px}
+.logo{font-family:var(--serif);font-weight:700;font-size:1.25em;text-decoration:none;display:flex;align-items:baseline;gap:8px}
+.logo small{font-family:var(--mono);font-size:.55em;color:var(--ink-3);letter-spacing:.06em}
+nav.main{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+nav.main a{text-decoration:none;padding:6px 10px;border-radius:6px;font-size:.9em;color:var(--ink-2)}
+nav.main a[aria-current="page"]{background:var(--surface-2);color:var(--ink);font-weight:600}
+.tools{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:.88em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:600}
+.btn:hover{border-color:var(--ink-3)}
+
+main{padding-block:32px 64px;display:grid;gap:48px}
+section{display:grid;gap:20px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.sec-head h2{font-size:1.5em}
+
+/* hero compass */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2em,5vw,3.1em)}
+.hero p{color:var(--ink-2);max-width:34em;margin:12px 0 0}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.compass{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line);position:relative}
+.compass a{background:var(--surface);padding:20px 18px 18px;text-decoration:none;display:grid;gap:6px;min-height:150px;transition:background .2s}
+.compass a:hover{background:var(--f-soft)}
+.compass .fname{font-family:var(--serif);font-size:1.35em;font-weight:700;color:var(--f)}
+.compass .fq{font-size:.92em;color:var(--ink-2)}
+.compass .fn{font-size:.75em;color:var(--ink-3);margin-top:auto}
+.center-i{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:1.05em;pointer-events:none;box-shadow:0 0 0 6px var(--bg)}
+[data-f="religion"]{--f:var(--rel);--f-soft:var(--rel-soft)}
+[data-f="philosophy"]{--f:var(--phi);--f-soft:var(--phi-soft)}
+[data-f="math"]{--f:var(--mat);--f-soft:var(--mat-soft)}
+[data-f="physics"]{--f:var(--phy);--f-soft:var(--phy-soft)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{border-top:2px solid var(--ink);padding-top:14px}
+.step b{font-family:var(--serif);font-size:1.15em;display:block}
+.step span{color:var(--ink-2);font-size:.93em}
+.step .mono{color:var(--ink-3);font-size:.8em}
+
+/* book cards list */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.book{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;text-decoration:none;display:grid;gap:8px;grid-template-rows:auto auto 1fr auto;border-top:3px solid var(--f)}
+a.book:hover{border-color:var(--f)}
+.book .t{font-family:var(--serif);font-weight:700;font-size:1.08em;line-height:1.35}
+.book .a{font-size:.82em;color:var(--ink-3)}
+.book .q{font-size:.9em;color:var(--ink-2)}
+.book .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pill{font-size:.72em;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.pill.live{background:var(--f-soft);color:var(--f);border-color:transparent;font-weight:600}
+.pill.fld{color:var(--f);border-color:var(--f)}
+.tag{font-size:.78em;color:var(--ink-3)}
+.book.soon{background:transparent;border-style:dashed;border-top-style:solid}
+
+/* hub */
+.hub-head{display:grid;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.hub-head .fname{color:var(--f);font-family:var(--mono);font-size:.8em;letter-spacing:.1em}
+.hub-head h1{font-size:clamp(1.8em,4.5vw,2.6em)}
+.hub-head p{color:var(--ink-2);max-width:40em;margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 12px;font-size:.85em;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* card detail */
+.crumb{font-size:.85em;color:var(--ink-3)}
+.crumb a{color:var(--ink-3)}
+.detail{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:start}
+.detail article{display:grid;gap:32px;max-width:680px}
+.dhead{display:grid;gap:10px}
+.dhead h1{font-size:clamp(1.8em,4.5vw,2.5em)}
+.qa{background:var(--f-soft);border-radius:12px;padding:22px;display:grid;gap:14px}
+.qa .big{font-family:var(--serif);font-size:1.3em;font-weight:700;line-height:1.45}
+.qa p{margin:0}
+.blk{display:grid;gap:12px}
+.blk h2{font-size:1.2em;display:flex;gap:10px;align-items:baseline}
+.blk h2 .mono{font-size:.65em;color:var(--f)}
+.concepts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.concepts li{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.concepts li:last-child{border-bottom:0}
+.concepts .n{font-family:var(--mono);color:var(--f);font-size:.9em}
+.concepts b{display:block}
+.concepts span{color:var(--ink-2);font-size:.95em}
+blockquote.quote{margin:0;border-left:3px solid var(--f);padding:4px 0 4px 18px;font-family:var(--serif);font-size:1.2em;line-height:1.6}
+blockquote.quote cite{display:block;font-family:var(--sans);font-style:normal;font-size:.72em;color:var(--ink-3);margin-top:6px}
+.prose p{margin:0 0 10px}
+.aside{position:sticky;top:90px;display:grid;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px}
+.video{aspect-ratio:16/9;max-width:100%;border-radius:8px;background:linear-gradient(135deg,var(--f),var(--ink));display:grid;place-items:center;color:#fff;position:relative;overflow:hidden}
+.video .play{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center}
+.video .play::after{content:"";border-left:14px solid #1A2030;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+.video .dur{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:.72em;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:4px}
+.vlist{display:grid;gap:6px;font-size:.88em}
+.vlist div{display:flex;justify-content:space-between;gap:8px;color:var(--ink-2)}
+
+/* ask me */
+.ask{border:2px solid var(--f);border-radius:14px;padding:22px;display:grid;gap:18px;background:var(--surface)}
+.ask h2{font-size:1.3em}
+.askq{display:grid;gap:8px}
+.askq label{font-family:var(--serif);font-weight:700;font-size:1.08em}
+textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg);resize:vertical;line-height:1.6}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.check{display:flex;gap:6px;align-items:center;font-size:.85em;color:var(--ink-2)}
+.note{font-size:.85em;color:var(--ok);font-weight:500}
+.gate{background:var(--surface-2);border-radius:10px;padding:14px;display:grid;gap:10px;font-size:.92em}
+
+/* journal */
+.timeline{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.entry{position:relative;padding:0 0 26px 24px;display:grid;gap:6px}
+.entry::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--f);box-shadow:0 0 0 4px var(--bg)}
+.entry .when{font-family:var(--mono);font-size:.78em;color:var(--ink-3)}
+.entry .qq{font-family:var(--serif);font-weight:700}
+.entry .ans{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;white-space:pre-wrap}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.compare .panel h3{font-size:1em}
+.stats{display:flex;gap:28px;flex-wrap:wrap}
+.stats div b{display:block;font-family:var(--serif);font-size:1.8em;line-height:1.1}
+.stats div span{font-size:.8em;color:var(--ink-3)}
+
+/* connections */
+.cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.col{display:grid;gap:10px;align-content:start}
+.col h3{font-size:1em;color:var(--f);border-bottom:2px solid var(--f);padding-bottom:6px}
+.empty{font-size:.85em;color:var(--ink-3);padding:10px 0}
+.feature-intro{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:6px}
+.feature-intro h2{font-size:1.4em}
+.feature-intro p{margin:0;color:var(--ink-2)}
+
+/* search */
+.search input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:1.05em}
+
+/* vote */
+.vote{display:grid;gap:10px}
+.vopt{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px;cursor:pointer;text-align:left}
+.vopt[aria-pressed="true"]{border-color:var(--brand)}
+.vbar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.vbar i{display:block;height:100%;background:var(--brand)}
+.vtop{display:flex;justify-content:space-between;gap:8px}
+
+.news{background:var(--ink);color:var(--bg);border-radius:14px;padding:28px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.news h2{font-size:1.4em}
+.news p{margin:6px 0 0;opacity:.8;font-size:.93em}
+.news form{display:flex;gap:8px;flex-wrap:wrap}
+.news input{padding:10px 12px;border-radius:8px;border:0;min-width:0;width:220px;max-width:100%;background:var(--bg);color:var(--ink)}
+.news button{background:var(--bg);color:var(--ink);border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer}
+
+footer{border-top:1px solid var(--line);padding-block:24px;font-size:.82em;color:var(--ink-3)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero,.detail{grid-template-columns:1fr}
+  .aside{position:static}
+  .cols{grid-template-columns:1fr 1fr}
+  .news{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  header.top{position:static}
+  .bar{gap:10px}
+  .logo{flex:1}
+  nav.main{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
+  nav.main a{white-space:nowrap}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .steps,.compare,.cols{grid-template-columns:1fr}
+  .compass a{min-height:130px;padding:16px 14px}
+  .center-i{width:52px;height:52px;font-size:.9em}
+  main{gap:40px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="#home">WORLD&amp;I <small>BOOKWORLD</small></a>
+    <nav class="main" id="nav" aria-label="주 메뉴"></nav>
+    <div class="tools">
+      <button class="btn" id="bigBtn" aria-pressed="false" title="큰 글씨">가<span style="font-size:1.25em">가</span></button>
+      <button class="btn primary" id="authBtn">가입하기</button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap"><span>WORLD&amp;I (BookWorld)</span><span>기록은 이 브라우저에만 저장됩니다</span></div></footer>
+
+<script>
+const FIELDS={
+  religion:{name:"종교",en:"RELIGION",q:"나는 왜 존재하는가",desc:"인류가 수천 년 동안 붙들어 온 초월과 의미의 질문. 특정 전통을 판단하지 않고, 각 종교를 그 신자의 눈으로 읽습니다."},
+  philosophy:{name:"철학",en:"PHILOSOPHY",q:"어떻게 살아야 하는가",desc:"소크라테스의 법정에서 오늘의 정의 논쟁까지. 개념어는 내 말로 풀고, 저자가 누구와 싸웠는지 함께 봅니다."},
+  math:{name:"수학",en:"MATHEMATICS",q:"무엇이 참인가",desc:"수식 없이 읽는 수학. 한 번 증명되면 영원히 참인 세계가 우리의 생각하는 방식을 어떻게 바꾸는지 따라갑니다."},
+  physics:{name:"물리학",en:"PHYSICS",q:"우주는 어떻게 움직이는가",desc:"사고 실험을 그림으로. 시간과 공간, 원자와 우주에 대한 현대 물리학의 그림을 생활의 언어로 옮깁니다."}
+};
+const FORDER=["religion","philosophy","math","physics"];
+
+const BOOKS=[
+ {id:"worlds-religions",f:"religion",t:"세계의 종교",a:"휴스턴 스미스",y:"1991",s:"live",q:"종교들은 얼마나 닮았고 얼마나 다른가?",tags:["진리","죽음","초월"],
+  card:{ans:"스미스는 각 종교를 그 신자의 눈으로 보았고, 서로 다른 길이 모두 ‘자기를 넘어서는 삶’을 가리킨다고 읽었다.",
+   concepts:[["신자의 눈으로 보기","한 종교를 바깥에서 평가하기 전에, 그 안에서 사는 사람에게 세상이 어떻게 보이는지 먼저 이해한다."],["여러 갈래의 길","힌두교는 지혜·사랑·일·명상이라는 네 가지 요가를 말한다. 사람의 기질에 따라 같은 목적지로 가는 길이 다르다."],["공통의 윤리","거의 모든 전통에 ‘남에게 대접받고 싶은 대로 대접하라’는 황금률과 같은 가르침이 있다."]],
+   analogy:"한 산의 정상을 향해 난 여러 등산로. 올라가는 길의 풍경은 서로 다르지만, 높이 오를수록 보이는 하늘은 닮아 간다.",
+   quote:"각 종교를 그 종교를 가장 잘 사는 사람의 모습으로 이해하려 해야 한다.",cite:"서문의 요지 · 원고 확정 시 쪽수 기입",
+   thought:"공감적 이해는 강력하지만, 종교 간의 실제 차이를 흐린다는 비판도 있다. ‘닮은 점’과 ‘다른 점’을 함께 보는 것이 이 책을 읽는 균형 잡힌 방법이다.",
+   links:["axial-age","apology","varieties"],
+   ask:["나를 넘어서는 무언가를 느낀 순간이 있었는가? 그때 무엇이 달라졌는가?","나와 다른 신앙을 가진 사람을 그의 눈으로 이해해 본 적이 있는가?"],
+   videos:[["본편","14:52"],["쇼츠 · 네 가지 요가","0:58"],["쇼츠 · 황금률","0:47"]]}},
+ {id:"axial-age",f:"religion",t:"축의 시대",a:"카렌 암스트롱",y:"2006",s:"soon",q:"왜 기원전 800~200년에 위대한 사상이 동시에 태어났나?",tags:["시간","초월","자비"]},
+ {id:"mere-christianity",f:"religion",t:"순전한 기독교",a:"C.S. 루이스",y:"1952",s:"soon",q:"이성적인 사람이 신을 믿을 수 있나?",tags:["진리","도덕"]},
+ {id:"varieties",f:"religion",t:"종교적 경험의 다양성",a:"윌리엄 제임스",y:"1902",s:"soon",q:"신비 체험은 뇌의 착각인가, 실재인가?",tags:["의식","초월"]},
+
+ {id:"apology",f:"philosophy",t:"소크라테스의 변론",a:"플라톤",y:"기원전 4세기",s:"live",q:"왜 소크라테스는 도망치지 않았나?",tags:["진리","죽음","양심"],
+  card:{ans:"소크라테스에게 목숨보다 중요한 것은 ‘영혼을 돌보는 삶’, 곧 자신의 무지를 알고 끝까지 캐묻는 삶이었다.",
+   concepts:[["무지의 앎","지혜로운 사람은 많이 아는 사람이 아니라, 자신이 모른다는 사실을 아는 사람이다."],["영혼의 돌봄","재산과 명예보다 영혼을 훌륭하게 만드는 일에 먼저 마음을 써야 한다."],["내면의 목소리","잘못된 일을 하려 할 때 멈추게 하는 소리. 오늘날 우리가 ‘양심’이라 부르는 것과 닮았다."]],
+   analogy:"소크라테스는 자신을 아테네라는 크고 둔한 말을 깨우는 등에라고 불렀다. 따끔하지만, 그 덕에 말은 잠들지 않는다.",
+   quote:"음미하지 않는 삶은 인간에게 살 가치가 없다.",cite:"플라톤, 『소크라테스의 변론』 38a",
+   thought:"끝없이 캐묻는 태도는 공동체를 불편하게 만든다. 오늘날의 온라인 논쟁과 비교하면, 소크라테스의 질문은 상대를 이기려는 것이 아니라 함께 진리에 가까워지려는 것이었다는 점이 다르다.",
+   links:["problems-of-philosophy","justice","geb"],
+   ask:["나는 손해를 감수하고 옳음을 지킨 적이 있는가?","요즘 내가 ‘안다’고 착각하고 있는 것은 무엇인가?"],
+   videos:[["본편","15:20"],["쇼츠 · 등에의 비유","0:52"],["쇼츠 · 음미하는 삶","0:41"]]}},
+ {id:"problems-of-philosophy",f:"philosophy",t:"철학의 문제들",a:"버트런드 러셀",y:"1912",s:"soon",q:"내 앞의 책상은 정말 있는가?",tags:["실재","진리"]},
+ {id:"sophie",f:"philosophy",t:"소피의 세계",a:"요슈타인 가아더",y:"1991",s:"soon",q:"철학 2500년을 이야기로 어떻게 엮나?",tags:["실재","시간"]},
+ {id:"justice",f:"philosophy",t:"정의란 무엇인가",a:"마이클 샌델",y:"2009",s:"soon",q:"다섯을 살리려 한 명을 희생해도 되나?",tags:["도덕","자유의지"]},
+
+ {id:"fermat",f:"math",t:"페르마의 마지막 정리",a:"사이먼 싱",y:"1997",s:"live",q:"358년 동안 아무도 못 푼 문제는 어떻게 풀렸나?",tags:["증명","무한"],
+  card:{ans:"앤드루 와일스는 7년 동안 홀로 연구해 타원곡선과 모듈러 형식을 잇는 다리를 증명했고, 페르마의 정리는 그 다리 위에서 따라 나왔다.",
+   concepts:[["페르마의 마지막 정리","n이 3 이상이면 xⁿ + yⁿ = zⁿ을 만족하는 자연수 x, y, z는 없다. 문장은 중학생도 이해하지만 증명은 358년이 걸렸다."],["증명이라는 약속","과학 이론은 새 실험으로 바뀔 수 있지만, 수학의 증명은 한 번 완성되면 영원히 참이다."],["서로 다른 세계 잇기","전혀 관계없어 보이던 두 수학 분야가 사실 같은 것을 말하고 있었다는 추측(다니야마–시무라)이 열쇠였다."]],
+   analogy:"두 나라 말을 잇는 사전 한 권. 한쪽 언어로 풀 수 없던 문제를 다른 언어로 옮기자 답이 보였다.",
+   quote:"나는 이 명제에 대한 놀라운 증명을 발견했지만, 여백이 너무 좁아 여기에 적지 않는다.",cite:"피에르 드 페르마가 책 여백에 남긴 메모 (1637년경)",
+   thought:"1993년 발표된 증명에서 오류가 발견되었고, 와일스는 1년 넘게 고친 끝에 완성했다. 이 책의 진짜 주제는 천재성보다 실패를 견디는 끈기일지 모른다.",
+   links:["x-joy","geb","brief-history"],
+   ask:["나는 몇 년이 걸려도 붙잡고 싶은 문제가 있는가?","내 계획에서 오류를 발견했을 때 나는 어떻게 반응하는가?"],
+   videos:[["본편","16:05"],["쇼츠 · 여백의 메모","0:55"]]}},
+ {id:"x-joy",f:"math",t:"X의 즐거움",a:"스티븐 스트로가츠",y:"2012",s:"soon",q:"수학은 왜 세상을 설명하는 데 쓸모가 있나?",tags:["무한","실재"]},
+ {id:"17-equations",f:"math",t:"세상을 바꾼 17가지 방정식",a:"이언 스튜어트",y:"2012",s:"soon",q:"식 하나가 어떻게 역사를 바꿨나?",tags:["우주","증명"]},
+ {id:"geb",f:"math",t:"괴델, 에셔, 바흐",a:"더글러스 호프스태터",y:"1979",s:"soon",q:"수학에도 증명할 수 없는 참이 있나?",tags:["증명","의식","무한","진리"]},
+
+ {id:"seven-lessons",f:"physics",t:"모든 순간의 물리학",a:"카를로 로벨리",y:"2014",s:"live",q:"현대 물리학의 핵심은 무엇인가?",tags:["시간","우주","실재"],
+  card:{ans:"공간과 시간은 고정된 무대가 아니라 휘고 출렁이는 존재이며, 세계는 ‘사물’이 아니라 ‘사건과 관계’의 그물이다.",
+   concepts:[["일반상대성이론","중력은 힘이라기보다 휘어진 시공간이다. 무거운 것이 공간을 휘게 하고, 다른 것은 그 휜 길을 따라 움직인다."],["양자역학","세계는 연속이 아니라 알갱이로 되어 있고, 입자는 다른 것과 관계를 맺을 때에만 모습을 드러낸다."],["시간과 열","과거와 미래가 다른 이유는 열이 뜨거운 곳에서 차가운 곳으로 흐르기 때문이다."]],
+   analogy:"트램펄린 한가운데 놓인 볼링공. 그 옆에 굴린 구슬이 공 쪽으로 휘어 들어가는 것이 바로 중력이다.",
+   quote:"우리는 자연을 바깥에서 바라보는 관찰자가 아니라, 자연의 일부다.",cite:"마지막 강의의 요지 · 원고 확정 시 쪽수 기입",
+   thought:"이 책은 짧고 아름답지만, 루프 양자중력처럼 아직 검증되지 않은 이론도 다룬다. 확립된 이론과 저자의 연구 가설을 구분해 읽으면 좋다.",
+   links:["brief-history","feynman","sophie"],
+   ask:["나는 나 자신을 ‘고정된 사물’로 보는가, 관계 속에서 변하는 ‘사건’으로 보는가?","요즘 나의 시간은 빠르게 흐르는가, 느리게 흐르는가? 왜 그렇다고 느끼는가?"],
+   videos:[["본편","13:48"],["쇼츠 · 휘어진 공간","0:59"],["쇼츠 · 시간은 열이다","0:44"]]}},
+ {id:"brief-history",f:"physics",t:"시간의 역사",a:"스티븐 호킹",y:"1988",s:"soon",q:"우주는 어떻게 시작됐고 어떻게 끝나나?",tags:["시간","우주","무한"]},
+ {id:"feynman",f:"physics",t:"파인만의 여섯 가지 물리 이야기",a:"리처드 파인만",y:"1994",s:"soon",q:"모든 것이 원자로 되어 있다는 게 무슨 뜻인가?",tags:["실재","우주"]},
+ {id:"vibration",f:"physics",t:"떨림과 울림",a:"김상욱",y:"2018",s:"soon",q:"물리학자의 눈으로 보면 삶은 어떻게 달라 보이나?",tags:["우주","의식"]}
+];
+const BY=Object.fromEntries(BOOKS.map(b=>[b.id,b]));
+
+const FEATURES={
+  "시간":"아우구스티누스는 ‘아무도 묻지 않으면 안다, 묻는 순간 모른다’고 했습니다. 종교의 영원, 철학의 변화, 물리학의 시공간이 한 질문에서 만납니다.",
+  "무한":"신학의 무한한 신, 칸토어의 무한 집합, 호킹의 우주론. 끝이 없다는 생각을 네 분야는 각각 어떻게 다뤄 왔을까요?",
+  "진리":"소크라테스의 캐묻기, 괴델의 불완전성, 종교의 계시. ‘참’이라는 말은 분야마다 다른 무게를 지닙니다."
+};
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={get(k,d){try{const v=localStorage.getItem("wi_"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("wi_"+k,JSON.stringify(v))}catch(e){}}};
+
+const SAMPLE=[
+ {id:"s1",book:"apology",qi:1,text:"회사에서 내가 제일 잘 안다고 생각했던 업무 방식. 후배의 질문을 받고서야 이유를 설명하지 못한다는 걸 알았다.",date:"2026-06-21",pub:false,sample:true},
+ {id:"s2",book:"seven-lessons",qi:0,text:"나는 ‘원래 이런 사람’이라고 스스로를 고정해 두고 살았다. 사람들과의 관계에 따라 내가 꽤 다르게 행동한다는 걸 인정하고 싶다.",date:"2026-09-12",pub:false,sample:true},
+ {id:"s3",book:"apology",qi:1,text:"아이 교육에 대해 ‘이게 정답’이라고 믿는 것. 다른 부모들의 생각을 더 들어 봐야겠다.",date:"2026-09-20",pub:false,sample:true}
+];
+let state={user:store.get("user",null),entries:store.get("entries",SAMPLE),votes:store.get("votes",{c1:128,c2:94,c3:71,c4:57}),myVote:store.get("myVote",null)};
+function save(){store.set("user",state.user);store.set("entries",state.entries);store.set("votes",state.votes);store.set("myVote",state.myVote)}
+
+const NAV=[["home","홈"],["religion","종교"],["philosophy","철학"],["math","수학"],["physics","물리학"],["connect","분야 연결 특집"],["journal","나의 기록"],["community","커뮤니티"],["search","검색"]];
+
+function bookTile(b){
+  const F=FIELDS[b.f];const live=b.s==="live";
+  const inner=`<span class="meta"><span class="pill fld">${F.name}</span><span class="pill ${live?"live":""}">${live?"공개됨":"예정"}</span></span>
+   <span><span class="t">${esc(b.t)}</span><br><span class="a">${esc(b.a)} · ${esc(b.y)}</span></span>
+   <span class="q">${esc(b.q)}</span>
+   <span class="tag">${b.tags.map(t=>"#"+t).join(" ")}</span>`;
+  return live?`<a class="book" data-f="${b.f}" href="#card-${b.id}">${inner}</a>`:`<div class="book soon" data-f="${b.f}">${inner}</div>`;
+}
+
+function viewHome(){
+  const live=BOOKS.filter(b=>b.s==="live");
+  return `
+  <section class="hero">
+    <div>
+      <div class="label">종교 · 철학 · 수학 · 물리학</div>
+      <h1 style="margin-top:8px">네 개의 질문,<br>하나의 나</h1>
+      <p>유튜브에서 15분으로 만난 명저를 여기서 다시 읽고, 책이 던진 질문에 나의 답을 남기세요. 기록이 쌓이면 생각이 어떻게 변했는지 보입니다.</p>
+      <div class="cta"><a class="btn primary" href="#card-apology">이번 주 북카드 읽기</a><a class="btn" href="#connect">분야 연결 특집</a></div>
+    </div>
+    <div class="compass">
+      ${FORDER.map(k=>{const F=FIELDS[k];const n=BOOKS.filter(b=>b.f===k);return `<a data-f="${k}" href="#${k}"><span class="label" style="color:var(--f)">${F.en}</span><span class="fname">${F.name}</span><span class="fq">${F.q}</span><span class="fn mono">북카드 ${n.filter(b=>b.s==="live").length} / ${n.length}</span></a>`}).join("")}
+      <div class="center-i">&amp;I</div>
+    </div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>읽고, 묻고, 기록한다</h2></div>
+    <div class="steps">
+      <div class="step"><span class="mono">1 · UNDERSTAND</span><b>이해</b><span>어려운 개념을 비유와 예시로. 중학생도 따라올 수 있는 북카드 한 장.</span></div>
+      <div class="step"><span class="mono">2 · ANALYZE</span><b>분석</b><span>북카드마다 ‘나에게 묻는 질문’. 개념이 내 삶에서 무슨 뜻인지 되묻습니다.</span></div>
+      <div class="step"><span class="mono">3 · CHANGE</span><b>변화</b><span>답을 남기면 날짜순으로 쌓입니다. 3개월 전의 나와 지금의 나를 비교해 보세요.</span></div>
+    </div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>공개된 북카드</h2><a class="btn" href="#search">전체 16권 보기</a></div>
+    <div class="grid">${live.map(bookTile).join("")}</div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>분야 연결 특집</h2></div>
+    <div class="grid">${Object.keys(FEATURES).map(t=>{const n=BOOKS.filter(b=>b.tags.includes(t));const fs=[...new Set(n.map(b=>b.f))];return `<a class="book" style="border-top-color:var(--ink)" href="#connect-${t==="시간"?"time":t==="무한"?"infinity":"truth"}"><span class="t">#${t}</span><span class="q">${FEATURES[t].slice(0,58)}…</span><span></span><span class="tag">${n.length}권 · ${fs.map(f=>FIELDS[f].name).join(" · ")}</span></a>`}).join("")}</div>
+  </section>
+  ${newsBlock()}`;
+}
+
+function newsBlock(){
+  return `<section class="news"><div><h2>한 달에 한 번, 북카드 편지</h2><p>이달의 책 4권과 북카드 요약을 이메일로 보내드려요.</p></div>
+  <form id="newsForm"><label class="sr" for="newsEmail" hidden>이메일</label><input id="newsEmail" type="email" required placeholder="이메일 주소"><button type="submit">구독하기</button><span id="newsMsg" style="font-size:.85em;width:100%"></span></form></section>`;
+}
+
+let hubFilter="all";
+function viewHub(k){
+  const F=FIELDS[k];const list=BOOKS.filter(b=>b.f===k&&(hubFilter==="all"||b.s===hubFilter));
+  return `<section data-f="${k}">
+    <div class="hub-head"><span class="fname">${F.en}</span><h1>${F.name} — ${F.q}</h1><p>${F.desc}</p></div>
+    <div class="chips" role="group" aria-label="상태 필터">${[["all","전체"],["live","공개됨"],["soon","예정"]].map(([v,l])=>`<button class="chip" data-hub="${v}" aria-pressed="${hubFilter===v}">${l}</button>`).join("")}</div>
+    <div class="grid">${list.map(bookTile).join("")||'<p class="empty">해당하는 책이 없습니다.</p>'}</div>
+  </section>`;
+}
+
+function viewCard(id){
+  const b=BY[id];if(!b||!b.card)return viewHome();const c=b.card;const F=FIELDS[b.f];
+  const mine=state.entries.filter(e=>e.book===id);
+  return `<div data-f="${b.f}" style="display:grid;gap:24px">
+  <div class="crumb"><a href="#home">홈</a> / <a href="#${b.f}">${F.name}</a> / ${esc(b.t)}</div>
+  <div class="detail">
+   <article>
+    <div class="dhead"><span class="meta" style="display:flex;gap:6px"><span class="pill fld">${F.name}</span><span class="pill live">공개됨</span></span>
+     <h1>${esc(b.t)}</h1><div style="color:var(--ink-3)">${esc(b.a)} · ${esc(b.y)} · ${b.tags.map(t=>`<a href="#connect-${t==="시간"?"time":t==="무한"?"infinity":t==="진리"?"truth":"x"}" style="color:var(--f)">#${t}</a>`).join(" ")}</div></div>
+    <div class="qa"><div><div class="label" style="color:var(--f)">한 줄 질문</div><p class="big">${esc(b.q)}</p></div><div><div class="label" style="color:var(--f)">한 줄 답</div><p>${esc(c.ans)}</p></div></div>
+    <div class="blk"><h2><span class="mono">01</span>핵심 개념 3가지</h2><ol class="concepts">${c.concepts.map((x,i)=>`<li><span class="n">${i+1}</span><div><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div></li>`).join("")}</ol></div>
+    <div class="blk"><h2><span class="mono">02</span>비유로 보기</h2><div class="prose"><p>${esc(c.analogy)}</p></div></div>
+    <div class="blk"><h2><span class="mono">03</span>인상 깊은 문장</h2><blockquote class="quote">“${esc(c.quote)}”<cite>${esc(c.cite)}</cite></blockquote></div>
+    <div class="blk"><h2><span class="mono">04</span>나의 생각과 반론</h2><div class="prose"><p>${esc(c.thought)}</p></div></div>
+    <div class="ask" id="ask"><div><div class="label" style="color:var(--f)">나에게 묻는 질문</div><h2>이 책을 내 삶에 비춰 보기</h2></div>
+     ${c.ask.map((q,i)=>`<div class="askq"><label for="ans-${i}">${esc(q)}</label><textarea id="ans-${i}" placeholder="떠오르는 대로 적어 보세요. 기본은 나만 보기입니다."></textarea>
+      <div class="row"><label class="check"><input type="checkbox" id="pub-${i}"> 커뮤니티에 익명으로 공개</label><button class="btn primary" data-save="${i}">기록 저장</button></div><div id="msg-${i}"></div></div>`).join("")}
+     ${mine.length?`<div class="note">이 책에 남긴 기록 ${mine.length}개 · <a href="#journal">나의 기록에서 보기</a></div>`:""}
+    </div>
+    <div class="blk"><h2><span class="mono">05</span>연결되는 책</h2><div class="grid">${c.links.map(l=>bookTile(BY[l])).join("")}</div></div>
+   </article>
+   <aside class="aside">
+    <div class="panel"><div class="video" role="img" aria-label="유튜브 본편 썸네일 자리"><div class="play"></div><span class="dur">${c.videos[0][1]}</span></div>
+     <div class="vlist">${c.videos.map(v=>`<div><span>${v[0]}</span><span class="mono">${v[1]}</span></div>`).join("")}</div>
+     <a class="btn" href="https://www.youtube.com" target="_blank" rel="noopener">유튜브에서 보기</a>
+     </div>
+    <div class="panel"><span class="label">북카드 목차</span><div class="vlist"><div>한 줄 질문 · 답</div><div>핵심 개념 3가지</div><div>비유 · 인상 깊은 문장</div><div>나의 생각과 반론</div><div><a href="#card-${id}" data-jump="ask" style="color:var(--f);font-weight:600">나에게 묻는 질문 →</a></div></div></div>
+   </aside>
+  </div></div>`;
+}
+
+function viewJournal(){
+  if(!state.user)return `<section style="max-width:560px"><h1 style="font-size:2em">나의 기록</h1><p style="color:var(--ink-2)">북카드의 질문에 남긴 답이 날짜순으로 이곳에 쌓입니다. 기록은 기본 비공개입니다.</p><div class="gate"><b>기록을 보려면 가입이 필요해요</b><div><button class="btn primary" data-login>가입하고 시작하기</button></div></div></section>`;
+  const es=[...state.entries].sort((a,b)=>b.date.localeCompare(a.date));
+  const books=new Set(es.map(e=>e.book));const fs=new Set(es.map(e=>BY[e.book].f));
+  const pairs=es.filter(e=>e.book==="apology"&&e.qi===1);
+  const old=pairs[pairs.length-1],now=pairs[0];
+  return `<section><div class="sec-head"><div><div class="label">${esc(state.user)}님의 삶 적용 저널</div><h1 style="font-size:2em">나의 기록</h1></div></div>
+   <div class="stats"><div><b class="mono">${es.length}</b><span>기록</span></div><div><b class="mono">${books.size}</b><span>읽은 북카드</span></div><div><b class="mono">${fs.size} / 4</b><span>다녀간 분야</span></div></div></section>
+   ${old&&now&&old!==now?`<section><h2 style="font-size:1.3em">그때의 나, 지금의 나</h2><p style="margin:0;color:var(--ink-2)">같은 질문 “${esc(BY.apology.card.ask[1])}”에 대한 두 번의 답</p>
+    <div class="compare"><div class="panel"><span class="mono" style="font-size:.8em;color:var(--ink-3)">${old.date}</span><div>${esc(old.text)}</div></div><div class="panel" style="border-color:var(--brand)"><span class="mono" style="font-size:.8em;color:var(--ink-3)">${now.date}</span><div>${esc(now.text)}</div></div></div></section>`:""}
+   <section><h2 style="font-size:1.3em">타임라인</h2><div class="timeline">${es.map(e=>{const b=BY[e.book];return `<div class="entry" data-f="${b.f}"><span class="when">${e.date} · <a href="#card-${b.id}">${esc(b.t)}</a>${e.sample?" · 예시":""}${e.pub?" · 공개":""}</span><span class="qq">${esc(b.card.ask[e.qi])}</span><div class="ans">${esc(e.text)}</div></div>`}).join("")}</div></section>`;
+}
+
+let connTag="시간";
+function viewConnect(){
+  const tags=[...new Set(BOOKS.flatMap(b=>b.tags))];
+  const list=BOOKS.filter(b=>b.tags.includes(connTag));
+  return `<section><div class="hub-head"><span class="label">사고의 지도</span><h1>분야 연결 특집</h1><p>하나의 개념 태그로 네 분야의 책을 가로질러 읽습니다.</p></div>
+   <div class="chips" role="group" aria-label="개념 태그">${tags.map(t=>`<button class="chip" data-tag="${t}" aria-pressed="${t===connTag}">#${t}</button>`).join("")}</div>
+   ${FEATURES[connTag]?`<div class="feature-intro"><span class="label">분기 특집</span><h2>#${connTag}</h2><p>${FEATURES[connTag]}</p></div>`:""}
+   <div class="cols">${FORDER.map(k=>{const bs=list.filter(b=>b.f===k);return `<div class="col" data-f="${k}"><h3>${FIELDS[k].name}</h3>${bs.map(bookTile).join("")||'<div class="empty">이 태그의 책이 아직 없어요</div>'}</div>`}).join("")}</div></section>`;
+}
+
+let q="";
+function viewSearch(){
+  return `<section class="search"><h1 style="font-size:2em">검색</h1><label for="sq" class="label">책 제목, 저자, 개념 태그</label><input id="sq" type="search" value="${esc(q)}" placeholder="예: 로벨리, 무한, 정의"><div id="sres" class="grid"></div></section>`;
+}
+function renderSearch(){
+  const t=q.trim().replace(/^#/,"");const r=BOOKS.filter(b=>!t||[b.t,b.a,b.q,...b.tags].join(" ").includes(t));
+  const el=document.getElementById("sres");if(el)el.innerHTML=r.map(bookTile).join("")||`<p class="empty">“${esc(t)}”에 맞는 책이 없어요. 커뮤니티에서 다음 책으로 제안해 보세요.</p>`;
+}
+
+const CANDS=[["c1","시간은 흐르지 않는다","카를로 로벨리","physics"],["c2","신의 역사","카렌 암스트롱","religion"],["c3","니코마코스 윤리학","아리스토텔레스","philosophy"],["c4","코스모스","칼 세이건","physics"]];
+function viewCommunity(){
+  const tot=Object.values(state.votes).reduce((a,b)=>a+b,0);
+  const pub=state.entries.filter(e=>e.pub);
+  return `<section><div class="hub-head"><span class="label">유튜브 커뮤니티 탭과 같은 후보로 진행</span><h1>다음 책 투표</h1><p>다음 본편으로 다룰 책을 골라 주세요. 참여 <span class="mono">${tot}</span>명</p></div>
+   <div class="vote">${CANDS.map(([id,t,a,f])=>{const v=state.votes[id];const p=Math.round(v/tot*100);return `<button class="vopt" data-f="${f}" data-vote="${id}" aria-pressed="${state.myVote===id}"><span class="vtop"><span><b>${t}</b> <span class="a" style="color:var(--ink-3);font-size:.85em">${a} · ${FIELDS[f].name}</span></span><span class="mono">${p}%</span></span><span class="vbar"><i style="width:${p}%"></i></span></button>`}).join("")}</div>
+   ${state.myVote?'<p class="note" style="margin:0">투표했어요. 다시 누르면 다른 책으로 바꿀 수 있습니다.</p>':""}</section>
+   <section><h2 style="font-size:1.3em">공개된 답</h2>${pub.length?`<div class="timeline">${pub.map(e=>{const b=BY[e.book];return `<div class="entry" data-f="${b.f}"><span class="when">익명 · ${e.date} · ${esc(b.t)}</span><span class="qq">${esc(b.card.ask[e.qi])}</span><div class="ans">${esc(e.text)}</div></div>`}).join("")}</div>`:'<p class="empty">아직 공개된 답이 없어요. 북카드에서 답을 저장할 때 ‘익명으로 공개’를 선택하면 여기에 나타납니다.</p>'}</section>`;
+}
+
+function route(){
+  const h=(location.hash||"#home").slice(1);let html,cur=h;
+  if(FIELDS[h])html=viewHub(h);
+  else if(h.startsWith("card-")){html=viewCard(h.slice(5));cur=BY[h.slice(5)]?.f}
+  else if(h.startsWith("connect")){const m={time:"시간",infinity:"무한",truth:"진리"}[h.split("-")[1]];if(m)connTag=m;html=viewConnect();cur="connect"}
+  else if(h==="journal")html=viewJournal();
+  else if(h==="community")html=viewCommunity();
+  else if(h==="search")html=viewSearch();
+  else{html=viewHome();cur="home"}
+  document.getElementById("app").innerHTML=html;
+  document.getElementById("nav").innerHTML=NAV.map(([k,l])=>`<a href="#${k}" ${k===cur?'aria-current="page"':""}>${l}</a>`).join("");
+  document.getElementById("authBtn").textContent=state.user?"로그아웃":"가입하기";
+  if(h==="search"){renderSearch();const i=document.getElementById("sq");i.addEventListener("input",e=>{q=e.target.value;renderSearch()})}
+}
+function rerender(keepScroll){const y=scrollY;route();if(keepScroll)scrollTo(0,y)}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-hub],[data-tag],[data-save],[data-login],[data-vote],[data-jump]");if(!t)return;
+  if(t.dataset.hub){hubFilter=t.dataset.hub;rerender(true)}
+  else if(t.dataset.tag){connTag=t.dataset.tag;rerender(true)}
+  else if(t.dataset.jump){e.preventDefault();document.getElementById(t.dataset.jump)?.scrollIntoView({behavior:"smooth"})}
+  else if(t.hasAttribute("data-login")){state.user="독자";save();rerender(true)}
+  else if(t.dataset.vote){const id=t.dataset.vote;if(state.myVote)state.votes[state.myVote]--;state.votes[id]++;state.myVote=id;save();rerender(true)}
+  else if(t.dataset.save!==undefined){
+    const i=+t.dataset.save;const box=document.getElementById("ans-"+i);const msg=document.getElementById("msg-"+i);const text=box.value.trim();
+    if(!text){msg.innerHTML='<span class="note" style="color:var(--phy)">답을 한 줄 이상 적어 주세요.</span>';box.focus();return}
+    if(!state.user){msg.innerHTML='<div class="gate"><b>답을 저장하려면 가입이 필요해요</b><span>적은 내용은 그대로 남아 있어요. 가입하면 바로 저장됩니다.</span><div><button class="btn primary" data-login-save="'+i+'">가입하고 저장하기</button></div></div>';return}
+    const id=(location.hash.slice(6));
+    state.entries.push({id:"u"+Date.now(),book:id,qi:i,text,date:new Date().toISOString().slice(0,10),pub:document.getElementById("pub-"+i).checked});save();
+    box.value="";msg.innerHTML='<span class="note">저장했어요. <a href="#journal">나의 기록</a>에서 볼 수 있습니다.</span>';
+  }
+});
+document.addEventListener("click",e=>{const t=e.target.closest("[data-login-save]");if(!t)return;state.user="독자";save();document.getElementById("authBtn").textContent="로그아웃";const i=t.dataset.loginSave;document.querySelector(`[data-save="${i}"]`).click()});
+document.addEventListener("submit",e=>{if(e.target.id==="newsForm"){e.preventDefault();document.getElementById("newsMsg").textContent="구독 신청이 접수됐어요.";e.target.querySelector("input").value=""}});
+document.getElementById("authBtn").addEventListener("click",()=>{state.user=state.user?null:"독자";save();rerender(true)});
+const bigBtn=document.getElementById("bigBtn");
+function setBig(v){document.documentElement.classList.toggle("big",v);bigBtn.setAttribute("aria-pressed",v);store.set("big",v)}
+bigBtn.addEventListener("click",()=>setBig(!document.documentElement.classList.contains("big")));
+setBig(store.get("big",false));
+window.addEventListener("hashchange",()=>{route();scrollTo(0,0)});
+route();
+</script>
+
+</body></html>
