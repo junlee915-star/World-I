@@ -420,6 +420,29 @@ const FEATURES={
   "진리":"소크라테스의 캐묻기, 괴델의 불완전성, 종교의 계시. ‘참’이라는 말은 분야마다 다른 무게를 지닙니다."
 };
 
+// 매달 발행하는 통합 논문: 4개 분야의 책 한 권씩을 가로질러 하나의 질문을 파고든다.
+const PAPERS=[
+ {id:"01-truth",no:1,issue:"2026년 10월",title:"참이란 무엇인가 — 종교·철학·수학·물리학이 그린 네 장의 지도",
+  q:"우리는 어떻게 ‘이것이 참이다’라고 확신하게 되는가?",
+  summary:"종교는 계시로, 철학은 끝없는 캐물음으로, 수학은 증명으로, 물리학은 관측으로 ‘참’에 다가간다. 이 논문은 세계의 종교·소크라테스의 변론·괴델, 에셔, 바흐·모든 순간의 물리학 네 권을 가로질러, ‘진리’라는 하나의 낱말 안에 실제로는 네 가지 다른 방법론이 들어 있음을 보인다.",
+  sections:[
+   {f:null,h:"서론 — 같은 말, 다른 잣대",body:"우리는 종교의 진리와 수학의 진리, 과학의 진리를 흔히 같은 저울로 잰다. 하지만 신자가 ‘참되다’고 말할 때, 수학자가 ‘참되다’고 말할 때, 물리학자가 ‘참되다’고 말할 때 각각 다른 절차를 거쳐 그 확신에 이른다. 이 논문은 그 절차 네 가지를 나란히 놓고 비교한다."},
+   {f:"religion",h:"1부 종교 — 계시로서의 진리",book:"worlds-religions",body:"휴스턴 스미스는 「세계의 종교」에서, 각 전통 안의 진리는 논증으로 정복되는 게 아니라 신자에게 ‘주어지는’ 것으로 경험된다고 보았다. 검증이 아니라 신뢰와 헌신의 관계 속에서 확인되는 진리다 — 등산로를 오른 이들의 증언이 쌓여, 그 길이 정상으로 이어진다는 확신이 되는 것과 같다."},
+   {f:"philosophy",h:"2부 철학 — 캐물어 얻는 진리",book:"apology",body:"소크라테스는 ‘나는 모른다는 것을 안다’는 태도로 끝까지 캐물었다. 철학에서 진리는 완성된 답이 아니라, 계속된 검토를 견디고도 무너지지 않은 것에 가깝다. 그는 그 캐묻는 삶을 죽음 앞에서도 포기하지 않았다 — 철학적 진리는 ‘의심을 통과한 것’이라는 성격을 지닌다."},
+   {f:"math",h:"3부 수학 — 증명해도 다 닿지 않는 진리",book:"geb",body:"수학은 엄격한 증명으로 진리를 세우는 가장 강력한 방법처럼 보이지만, 괴델은 충분히 강력한 체계라면 참이지만 그 체계 안에서는 증명할 수 없는 문장이 반드시 있음을 보였다. 가장 엄밀한 학문에서조차 ‘참’과 ‘증명 가능함’은 완전히 같은 말이 아니다."},
+   {f:"physics",h:"4부 물리학 — 관계 속에서 드러나는 진리",book:"seven-lessons",body:"카를로 로벨리가 그리는 양자역학의 세계에서, 입자는 관측되기 전까지 여러 상태로 겹쳐 있다가 다른 무언가와 관계를 맺는 순간에야 하나의 값으로 드러난다. 물리학의 ‘참’은 고정된 사실이라기보다, 관계 속에서 드러나는 사건에 더 가깝다."},
+   {f:null,h:"종합 — 네 개의 얼굴을 가진 진리",body:"네 분야를 나란히 놓으면 ‘진리’는 (1) 신뢰와 헌신으로 받아들여지는 것(종교), (2) 의심을 견뎌낸 것(철학), (3) 체계 안에서 증명된 것 — 또는 참이지만 증명될 수 없는 것(수학), (4) 관계 속에서 관측되어 드러나는 것(물리학)이라는 네 가지 얼굴을 갖는다. 어느 하나가 정답이라는 뜻이 아니다. ‘그건 사실이 아니야’라고 말할 때, 지금 내가 이 네 잣대 중 어느 것을 쓰고 있는지 스스로 묻는 습관이 대화를 더 정확하게 만든다."}
+  ],
+  next:"다음 호에서는 ‘시간’을 주제로, 아우구스티누스의 물음 — ‘아무도 묻지 않으면 안다, 묻는 순간 모른다’ — 에서 출발해 네 분야를 다시 가로지릅니다.",
+  refs:["worlds-religions","apology","geb","seven-lessons"]}
+];
+function paperTile(p){
+  return `<a class="book" style="border-top-color:var(--ink)" href="#paper-${p.id}"><span class="meta"><span class="pill">제${p.no}호</span><span class="tag">${esc(p.issue)}</span></span>
+   <span><span class="t">${esc(p.title)}</span></span>
+   <span class="q">${esc(p.q)}</span>
+   <span class="tag">${FORDER.map(f=>FIELDS[f].name).join(" · ")}</span></a>`;
+}
+
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem("wi_"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("wi_"+k,JSON.stringify(v))}catch(e){}}};
 
@@ -444,7 +467,7 @@ async function loadEntries(){
   }catch(e){state.entries=[]}
 }
 
-const NAV=[["home","홈"],["religion","종교"],["philosophy","철학"],["math","수학"],["physics","물리학"],["connect","분야 연결 특집"],["journal","나의 기록"],["community","커뮤니티"],["search","검색"]];
+const NAV=[["home","홈"],["religion","종교"],["philosophy","철학"],["math","수학"],["physics","물리학"],["connect","분야 연결 특집"],["papers","논문"],["journal","나의 기록"],["community","커뮤니티"],["search","검색"]];
 
 function bookTile(b){
   const F=FIELDS[b.f];const live=b.s==="live";
@@ -485,6 +508,10 @@ function viewHome(){
   <section>
     <div class="sec-head"><h2>분야 연결 특집</h2></div>
     <div class="grid">${Object.keys(FEATURES).map(t=>{const n=BOOKS.filter(b=>b.tags.includes(t));const fs=[...new Set(n.map(b=>b.f))];return `<a class="book" style="border-top-color:var(--ink)" href="#connect-${t==="시간"?"time":t==="무한"?"infinity":"truth"}"><span class="t">#${t}</span><span class="q">${FEATURES[t].slice(0,58)}…</span><span></span><span class="tag">${n.length}권 · ${fs.map(f=>FIELDS[f].name).join(" · ")}</span></a>`}).join("")}</div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>이달의 통합 논문</h2><a class="btn" href="#papers">지난 논문 모아보기</a></div>
+    <div class="grid">${PAPERS.length?paperTile(PAPERS[PAPERS.length-1]):'<p class="empty">준비 중입니다.</p>'}</div>
   </section>
   ${newsBlock()}`;
 }
@@ -559,6 +586,25 @@ function viewConnect(){
    <div class="cols">${FORDER.map(k=>{const bs=list.filter(b=>b.f===k);return `<div class="col" data-f="${k}"><h3>${FIELDS[k].name}</h3>${bs.map(bookTile).join("")||'<div class="empty">이 태그의 책이 아직 없어요</div>'}</div>`}).join("")}</div></section>`;
 }
 
+function viewPapers(){
+  return `<section><div class="hub-head"><span class="label">매달 하나의 통합 질문</span><h1>논문</h1><p>4개 분야의 책 한 권씩을 가로질러, 매달 하나의 질문을 깊이 파고드는 통합 논문을 씁니다.</p></div>
+   <div class="grid">${PAPERS.length?[...PAPERS].reverse().map(paperTile).join(""):'<p class="empty">아직 발행된 논문이 없어요.</p>'}</div></section>`;
+}
+function viewPaper(id){
+  const p=PAPERS.find(x=>x.id===id);if(!p)return viewPapers();
+  return `<div style="display:grid;gap:24px">
+  <div class="crumb"><a href="#home">홈</a> / <a href="#papers">논문</a> / ${esc(p.title)}</div>
+  <article style="display:grid;gap:28px;max-width:720px">
+   <div class="dhead"><span class="meta" style="display:flex;gap:6px"><span class="pill">제${p.no}호</span><span class="pill fld">${esc(p.issue)}</span></span>
+    <h1>${esc(p.title)}</h1></div>
+   <div class="qa"><div><div class="label">핵심 질문</div><p class="big">${esc(p.q)}</p></div><div><div class="label">초록</div><p>${esc(p.summary)}</p></div></div>
+   ${p.sections.map(s=>`<div class="blk"${s.f?` data-f="${s.f}"`:""}><h2>${s.f?`<span class="pill fld">${FIELDS[s.f].name}</span> `:""}${esc(s.h)}</h2><div class="prose"><p>${esc(s.body)}</p></div>${s.book&&BY[s.book]?`<div><a class="btn" href="#card-${s.book}">관련 북카드 · ${esc(BY[s.book].t)} →</a></div>`:""}</div>`).join("")}
+   ${p.next?`<div class="blk"><h2>다음 호 예고</h2><div class="prose"><p>${esc(p.next)}</p></div></div>`:""}
+   <div class="blk"><h2>연결되는 책</h2><div class="grid">${p.refs.map(r=>bookTile(BY[r])).join("")}</div></div>
+  </article>
+  </div>`;
+}
+
 let q="";
 function viewSearch(){
   return `<section class="search"><h1 style="font-size:2em">검색</h1><label for="sq" class="label">책 제목, 저자, 개념 태그</label><input id="sq" type="search" value="${esc(q)}" placeholder="예: 로벨리, 무한, 정의"><div id="sres" class="grid"></div></section>`;
@@ -593,6 +639,8 @@ function route(){
   if(FIELDS[h])html=viewHub(h);
   else if(h.startsWith("card-")){html=viewCard(h.slice(5));cur=BY[h.slice(5)]?.f}
   else if(h.startsWith("connect")){const m={time:"시간",infinity:"무한",truth:"진리"}[h.split("-")[1]];if(m)connTag=m;html=viewConnect();cur="connect"}
+  else if(h==="papers")html=viewPapers();
+  else if(h.startsWith("paper-")){html=viewPaper(h.slice(6));cur="papers"}
   else if(h==="journal")html=viewJournal();
   else if(h==="community")html=viewCommunity();
   else if(h==="search")html=viewSearch();
