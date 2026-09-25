@@ -145,6 +145,17 @@ textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:8
 .note{font-size:.85em;color:var(--ok);font-weight:500}
 .gate{background:var(--surface-2);border-radius:10px;padding:14px;display:grid;gap:10px;font-size:.92em}
 
+/* auth modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(10,12,20,.5);display:grid;place-items:center;z-index:50;padding:16px}
+.modal-backdrop[hidden]{display:none}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;width:100%;max-width:360px}
+.modal-tabs{display:flex;gap:6px}
+.modal-tabs .tab{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px;cursor:pointer;font-size:.9em}
+.modal-tabs .tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modal form{display:grid;gap:10px}
+.modal input[type="email"],.modal input[type="password"]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.modal .row{justify-content:flex-end}
+
 /* journal */
 .timeline{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
 .entry{position:relative;padding:0 0 26px 24px;display:grid;gap:6px}
@@ -222,7 +233,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </div>
 </header>
 <main class="wrap" id="app"></main>
-<footer><div class="wrap"><span>WORLD&amp;I (BookWorld)</span><span>기록은 이 브라우저에만 저장됩니다</span></div></footer>
+<footer><div class="wrap"><span>WORLD&amp;I (BookWorld)</span><span>기록은 로그인한 계정에 안전하게 저장됩니다</span></div></footer>
+
+<div class="modal-backdrop" id="authOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-tabs" role="tablist" aria-label="가입 또는 로그인">
+      <button type="button" class="tab" data-authmode="signup" aria-pressed="true">가입하기</button>
+      <button type="button" class="tab" data-authmode="login" aria-pressed="false">로그인</button>
+    </div>
+    <h2 id="authTitle" style="font-size:1.2em">가입하기</h2>
+    <form id="authForm">
+      <label class="sr" for="authEmail" hidden>이메일</label>
+      <input id="authEmail" type="email" required autocomplete="email" placeholder="이메일 주소">
+      <label class="sr" for="authPassword" hidden>비밀번호</label>
+      <input id="authPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="비밀번호 (8자 이상)">
+      <label class="check" id="authNewsletterWrap"><input type="checkbox" id="authNewsletter"> 월간 북카드 편지 받기</label>
+      <div id="authMsg"></div>
+      <div class="row"><button type="button" class="btn" id="authCancel">취소</button><button type="submit" class="btn primary">계속하기</button></div>
+    </form>
+  </div>
+</div>
 
 <script>
 const FIELDS={
@@ -297,13 +327,26 @@ const FEATURES={
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem("wi_"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("wi_"+k,JSON.stringify(v))}catch(e){}}};
 
-const SAMPLE=[
- {id:"s1",book:"apology",qi:1,text:"회사에서 내가 제일 잘 안다고 생각했던 업무 방식. 후배의 질문을 받고서야 이유를 설명하지 못한다는 걸 알았다.",date:"2026-06-21",pub:false,sample:true},
- {id:"s2",book:"seven-lessons",qi:0,text:"나는 ‘원래 이런 사람’이라고 스스로를 고정해 두고 살았다. 사람들과의 관계에 따라 내가 꽤 다르게 행동한다는 걸 인정하고 싶다.",date:"2026-09-12",pub:false,sample:true},
- {id:"s3",book:"apology",qi:1,text:"아이 교육에 대해 ‘이게 정답’이라고 믿는 것. 다른 부모들의 생각을 더 들어 봐야겠다.",date:"2026-09-20",pub:false,sample:true}
-];
-let state={user:store.get("user",null),entries:store.get("entries",SAMPLE),votes:store.get("votes",{c1:128,c2:94,c3:71,c4:57}),myVote:store.get("myVote",null)};
-function save(){store.set("user",state.user);store.set("entries",state.entries);store.set("votes",state.votes);store.set("myVote",state.myVote)}
+async function api(path,opts={}){
+  const res=await fetch(path,{method:opts.method||"GET",headers:opts.body?{"Content-Type":"application/json"}:undefined,body:opts.body?JSON.stringify(opts.body):undefined,credentials:"same-origin"});
+  let data=null;try{data=await res.json()}catch(e){}
+  if(!res.ok){const err=new Error((data&&data.error)||`요청에 실패했습니다 (${res.status})`);err.status=res.status;throw err}
+  return data;
+}
+
+let state={user:null,entries:[],votes:store.get("votes",{c1:128,c2:94,c3:71,c4:57}),myVote:store.get("myVote",null)};
+function save(){store.set("votes",state.votes);store.set("myVote",state.myVote)}
+
+async function refreshAuth(){
+  try{const data=await api("/api/me");state.user=data.user}catch(e){state.user=null}
+}
+async function loadEntries(){
+  if(!state.user){state.entries=[];return}
+  try{
+    const data=await api("/api/responses");
+    state.entries=(data.entries||[]).map(e=>({id:e.id,book:e.book_id,qi:e.question_index,text:e.answer_text,date:e.created_at.slice(0,10),pub:e.is_public}));
+  }catch(e){state.entries=[]}
+}
 
 const NAV=[["home","홈"],["religion","종교"],["philosophy","철학"],["math","수학"],["physics","물리학"],["connect","분야 연결 특집"],["journal","나의 기록"],["community","커뮤니티"],["search","검색"]];
 
@@ -402,11 +445,12 @@ function viewJournal(){
   const books=new Set(es.map(e=>e.book));const fs=new Set(es.map(e=>BY[e.book].f));
   const pairs=es.filter(e=>e.book==="apology"&&e.qi===1);
   const old=pairs[pairs.length-1],now=pairs[0];
-  return `<section><div class="sec-head"><div><div class="label">${esc(state.user)}님의 삶 적용 저널</div><h1 style="font-size:2em">나의 기록</h1></div></div>
+  return `<section><div class="sec-head"><div><div class="label">${esc(state.user.email)}님의 삶 적용 저널</div><h1 style="font-size:2em">나의 기록</h1></div></div>
    <div class="stats"><div><b class="mono">${es.length}</b><span>기록</span></div><div><b class="mono">${books.size}</b><span>읽은 북카드</span></div><div><b class="mono">${fs.size} / 4</b><span>다녀간 분야</span></div></div></section>
+   ${es.length?"":'<p class="empty">아직 기록이 없어요. 북카드의 “나에게 묻는 질문”에 답을 남기면 여기에 쌓입니다.</p>'}
    ${old&&now&&old!==now?`<section><h2 style="font-size:1.3em">그때의 나, 지금의 나</h2><p style="margin:0;color:var(--ink-2)">같은 질문 “${esc(BY.apology.card.ask[1])}”에 대한 두 번의 답</p>
     <div class="compare"><div class="panel"><span class="mono" style="font-size:.8em;color:var(--ink-3)">${old.date}</span><div>${esc(old.text)}</div></div><div class="panel" style="border-color:var(--brand)"><span class="mono" style="font-size:.8em;color:var(--ink-3)">${now.date}</span><div>${esc(now.text)}</div></div></div></section>`:""}
-   <section><h2 style="font-size:1.3em">타임라인</h2><div class="timeline">${es.map(e=>{const b=BY[e.book];return `<div class="entry" data-f="${b.f}"><span class="when">${e.date} · <a href="#card-${b.id}">${esc(b.t)}</a>${e.sample?" · 예시":""}${e.pub?" · 공개":""}</span><span class="qq">${esc(b.card.ask[e.qi])}</span><div class="ans">${esc(e.text)}</div></div>`}).join("")}</div></section>`;
+   ${es.length?`<section><h2 style="font-size:1.3em">타임라인</h2><div class="timeline">${es.map(e=>{const b=BY[e.book];return `<div class="entry" data-f="${b.f}"><span class="when">${e.date} · <a href="#card-${b.id}">${esc(b.t)}</a>${e.pub?" · 공개":""}</span><span class="qq">${esc(b.card.ask[e.qi])}</span><div class="ans">${esc(e.text)}</div></div>`}).join("")}</div></section>`:""}`;
 }
 
 let connTag="시간";
@@ -431,11 +475,21 @@ function renderSearch(){
 const CANDS=[["c1","시간은 흐르지 않는다","카를로 로벨리","physics"],["c2","신의 역사","카렌 암스트롱","religion"],["c3","니코마코스 윤리학","아리스토텔레스","philosophy"],["c4","코스모스","칼 세이건","physics"]];
 function viewCommunity(){
   const tot=Object.values(state.votes).reduce((a,b)=>a+b,0);
-  const pub=state.entries.filter(e=>e.pub);
   return `<section><div class="hub-head"><span class="label">유튜브 커뮤니티 탭과 같은 후보로 진행</span><h1>다음 책 투표</h1><p>다음 본편으로 다룰 책을 골라 주세요. 참여 <span class="mono">${tot}</span>명</p></div>
    <div class="vote">${CANDS.map(([id,t,a,f])=>{const v=state.votes[id];const p=Math.round(v/tot*100);return `<button class="vopt" data-f="${f}" data-vote="${id}" aria-pressed="${state.myVote===id}"><span class="vtop"><span><b>${t}</b> <span class="a" style="color:var(--ink-3);font-size:.85em">${a} · ${FIELDS[f].name}</span></span><span class="mono">${p}%</span></span><span class="vbar"><i style="width:${p}%"></i></span></button>`}).join("")}</div>
    ${state.myVote?'<p class="note" style="margin:0">투표했어요. 다시 누르면 다른 책으로 바꿀 수 있습니다.</p>':""}</section>
-   <section><h2 style="font-size:1.3em">공개된 답</h2>${pub.length?`<div class="timeline">${pub.map(e=>{const b=BY[e.book];return `<div class="entry" data-f="${b.f}"><span class="when">익명 · ${e.date} · ${esc(b.t)}</span><span class="qq">${esc(b.card.ask[e.qi])}</span><div class="ans">${esc(e.text)}</div></div>`}).join("")}</div>`:'<p class="empty">아직 공개된 답이 없어요. 북카드에서 답을 저장할 때 ‘익명으로 공개’를 선택하면 여기에 나타납니다.</p>'}</section>`;
+   <section><h2 style="font-size:1.3em">공개된 답</h2><div id="pubFeed" class="empty">불러오는 중…</div></section>`;
+}
+async function renderPublicFeed(){
+  const el=document.getElementById("pubFeed");if(!el)return;
+  try{
+    const data=await api("/api/responses/public");
+    const pub=data.entries||[];
+    el.className=pub.length?"timeline":"empty";
+    el.innerHTML=pub.length?pub.map(e=>{const b=BY[e.book_id];if(!b||!b.card)return"";return `<div class="entry" data-f="${b.f}"><span class="when">익명 · ${esc(e.created_at.slice(0,10))} · ${esc(b.t)}</span><span class="qq">${esc(b.card.ask[e.question_index]||"")}</span><div class="ans">${esc(e.answer_text)}</div></div>`}).join(""):'<p class="empty">아직 공개된 답이 없어요. 북카드에서 답을 저장할 때 ‘익명으로 공개’를 선택하면 여기에 나타납니다.</p>';
+  }catch(err){
+    el.className="empty";el.textContent="공개된 답을 불러오지 못했어요.";
+  }
 }
 
 function route(){
@@ -451,34 +505,101 @@ function route(){
   document.getElementById("nav").innerHTML=NAV.map(([k,l])=>`<a href="#${k}" ${k===cur?'aria-current="page"':""}>${l}</a>`).join("");
   document.getElementById("authBtn").textContent=state.user?"로그아웃":"가입하기";
   if(h==="search"){renderSearch();const i=document.getElementById("sq");i.addEventListener("input",e=>{q=e.target.value;renderSearch()})}
+  if(h==="community")renderPublicFeed();
 }
 function rerender(keepScroll){const y=scrollY;route();if(keepScroll)scrollTo(0,y)}
 
+async function saveAnswer(i){
+  const box=document.getElementById("ans-"+i);const msg=document.getElementById("msg-"+i);
+  if(!box)return;
+  const text=box.value.trim();
+  if(!text){if(msg)msg.innerHTML='<span class="note" style="color:var(--phy)">답을 한 줄 이상 적어 주세요.</span>';box.focus();return}
+  if(!state.user){
+    if(msg)msg.innerHTML='<div class="gate"><b>답을 저장하려면 가입이 필요해요</b><span>적은 내용은 그대로 남아 있어요. 가입하면 바로 저장됩니다.</span><div><button type="button" class="btn primary" data-login-save="'+i+'">가입하고 저장하기</button></div></div>';
+    return;
+  }
+  const bookId=location.hash.slice(6);
+  const isPublic=document.getElementById("pub-"+i)?.checked||false;
+  if(msg)msg.textContent="저장 중...";
+  try{
+    const data=await api("/api/responses",{method:"POST",body:{book_id:bookId,question_index:i,answer_text:text,is_public:isPublic}});
+    state.entries.unshift({id:data.entry.id,book:bookId,qi:i,text,date:data.entry.created_at.slice(0,10),pub:isPublic});
+    box.value="";
+    if(msg)msg.innerHTML='<span class="note">저장했어요. <a href="#journal">나의 기록</a>에서 볼 수 있습니다.</span>';
+  }catch(err){
+    if(msg)msg.innerHTML=`<span class="note" style="color:var(--phy)">${esc(err.message)}</span>`;
+  }
+}
+
+let authMode="signup",pendingSaveIndex=null;
+const authOverlay=document.getElementById("authOverlay");
+function openAuth(mode,pendingIndex){
+  authMode=mode||"signup";
+  pendingSaveIndex=pendingIndex===undefined?null:pendingIndex;
+  authOverlay.querySelectorAll("[data-authmode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.authmode===authMode)));
+  document.getElementById("authTitle").textContent=authMode==="signup"?"가입하기":"로그인";
+  document.getElementById("authNewsletterWrap").hidden=authMode!=="signup";
+  document.getElementById("authMsg").textContent="";
+  document.getElementById("authForm").reset();
+  authOverlay.hidden=false;
+  document.getElementById("authEmail").focus();
+}
+function closeAuth(){authOverlay.hidden=true;pendingSaveIndex=null}
+
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-hub],[data-tag],[data-save],[data-login],[data-vote],[data-jump]");if(!t)return;
+  const t=e.target.closest("[data-hub],[data-tag],[data-save],[data-login],[data-login-save],[data-vote],[data-jump]");if(!t)return;
   if(t.dataset.hub){hubFilter=t.dataset.hub;rerender(true)}
   else if(t.dataset.tag){connTag=t.dataset.tag;rerender(true)}
   else if(t.dataset.jump){e.preventDefault();document.getElementById(t.dataset.jump)?.scrollIntoView({behavior:"smooth"})}
-  else if(t.hasAttribute("data-login")){state.user="독자";save();rerender(true)}
+  else if(t.hasAttribute("data-login")){openAuth("signup",null)}
+  else if(t.dataset.loginSave!==undefined){openAuth("signup",+t.dataset.loginSave)}
   else if(t.dataset.vote){const id=t.dataset.vote;if(state.myVote)state.votes[state.myVote]--;state.votes[id]++;state.myVote=id;save();rerender(true)}
-  else if(t.dataset.save!==undefined){
-    const i=+t.dataset.save;const box=document.getElementById("ans-"+i);const msg=document.getElementById("msg-"+i);const text=box.value.trim();
-    if(!text){msg.innerHTML='<span class="note" style="color:var(--phy)">답을 한 줄 이상 적어 주세요.</span>';box.focus();return}
-    if(!state.user){msg.innerHTML='<div class="gate"><b>답을 저장하려면 가입이 필요해요</b><span>적은 내용은 그대로 남아 있어요. 가입하면 바로 저장됩니다.</span><div><button class="btn primary" data-login-save="'+i+'">가입하고 저장하기</button></div></div>';return}
-    const id=(location.hash.slice(6));
-    state.entries.push({id:"u"+Date.now(),book:id,qi:i,text,date:new Date().toISOString().slice(0,10),pub:document.getElementById("pub-"+i).checked});save();
-    box.value="";msg.innerHTML='<span class="note">저장했어요. <a href="#journal">나의 기록</a>에서 볼 수 있습니다.</span>';
+  else if(t.dataset.save!==undefined){saveAnswer(+t.dataset.save)}
+});
+authOverlay.querySelectorAll("[data-authmode]").forEach(b=>b.addEventListener("click",()=>openAuth(b.dataset.authmode,pendingSaveIndex)));
+document.getElementById("authCancel").addEventListener("click",closeAuth);
+authOverlay.addEventListener("click",e=>{if(e.target===authOverlay)closeAuth()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!authOverlay.hidden)closeAuth()});
+document.getElementById("authForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  const newsletter=document.getElementById("authNewsletter").checked;
+  const msg=document.getElementById("authMsg");
+  msg.textContent="처리 중...";
+  try{
+    const path=authMode==="signup"?"/api/signup":"/api/login";
+    const body=authMode==="signup"?{email,password,newsletter}:{email,password};
+    const data=await api(path,{method:"POST",body});
+    state.user=data.user;
+    await loadEntries();
+    closeAuth();
+    const pending=pendingSaveIndex;pendingSaveIndex=null;
+    if(pending!==null){await saveAnswer(pending);document.getElementById("authBtn").textContent="로그아웃"}
+    else rerender(true);
+  }catch(err){
+    msg.innerHTML=`<span class="note" style="color:var(--phy)">${esc(err.message)}</span>`;
   }
 });
-document.addEventListener("click",e=>{const t=e.target.closest("[data-login-save]");if(!t)return;state.user="독자";save();document.getElementById("authBtn").textContent="로그아웃";const i=t.dataset.loginSave;document.querySelector(`[data-save="${i}"]`).click()});
+
 document.addEventListener("submit",e=>{if(e.target.id==="newsForm"){e.preventDefault();document.getElementById("newsMsg").textContent="구독 신청이 접수됐어요.";e.target.querySelector("input").value=""}});
-document.getElementById("authBtn").addEventListener("click",()=>{state.user=state.user?null:"독자";save();rerender(true)});
+document.getElementById("authBtn").addEventListener("click",async()=>{
+  if(state.user){
+    try{await api("/api/logout",{method:"POST"})}catch(err){}
+    state.user=null;state.entries=[];rerender(true);
+  }else openAuth("signup",null);
+});
 const bigBtn=document.getElementById("bigBtn");
 function setBig(v){document.documentElement.classList.toggle("big",v);bigBtn.setAttribute("aria-pressed",v);store.set("big",v)}
 bigBtn.addEventListener("click",()=>setBig(!document.documentElement.classList.contains("big")));
-setBig(store.get("big",false));
-window.addEventListener("hashchange",()=>{route();scrollTo(0,0)});
-route();
+
+(async function init(){
+  setBig(store.get("big",false));
+  await refreshAuth();
+  await loadEntries();
+  route();
+  window.addEventListener("hashchange",()=>{route();scrollTo(0,0)});
+})();
 </script>
 
 </body></html>
