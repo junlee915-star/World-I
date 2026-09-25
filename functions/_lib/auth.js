@@ -1,6 +1,7 @@
 const SESSION_COOKIE = "wi_session";
 const SESSION_DAYS = 30;
-const PBKDF2_ITERATIONS = 120000;
+// Cloudflare Workers' PBKDF2 implementation rejects iteration counts above 100,000.
+const PBKDF2_ITERATIONS = 100000;
 
 function toHex(buf) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
